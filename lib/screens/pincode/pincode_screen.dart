@@ -16,8 +16,7 @@ class PincodeScreen extends StatelessWidget {
                   child: Column(
                 children: <Widget>[
                   Container(margin: EdgeInsets.symmetric(vertical: 15.0)),
-                  Icon(Icons.phonelink_ring,
-                      size: 100.0, color: Theme.of(context).primaryColor),
+                  Icon(Icons.visibility, size: 100.0, color: Colors.red),
                   Container(margin: EdgeInsets.symmetric(vertical: 15.0)),
                   Container(
                     width: MediaQuery.of(context).size.width * 4 / 5,

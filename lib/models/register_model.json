@@ -1,0 +1,20 @@
+{
+    "code": "200",
+    "status": "success",
+    "message": "Register success",
+    "data": {
+        "id": "2",
+        "empid": "5601965",
+        "cizid": "7127225663620",
+        "imei": "4587965289",
+        "passcode": "632548",
+        "prename": "นางสาว",
+        "firstname": "วารุณี",
+        "lastname": "ศรีสุข",
+        "position": "พนักงานฝ่ายจัดสินเชื่อ",
+        "department": "สินเชื่อและการขาย",
+        "salary": "23500.00",
+        "birthdate": "1988-06-10",
+        "status": "1"
+    }
+}

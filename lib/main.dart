@@ -10,7 +10,7 @@ class BaacApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      debugShowCheckedModeBanner: true,
+      debugShowCheckedModeBanner: false,
       theme: appTheme(),
       initialRoute: '/welcome',
       routes: routes,

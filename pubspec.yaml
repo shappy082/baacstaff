@@ -32,6 +32,7 @@ dependencies:
   shared_preferences: ^0.5.10
   get_mac: ^0.0.1
   imei_plugin: ^1.2.0
+  connectivity: ^0.4.9+2
 
 dev_dependencies:
   flutter_test:

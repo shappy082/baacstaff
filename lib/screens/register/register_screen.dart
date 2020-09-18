@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:baacstaff/utils/utility.dart';
+import 'package:connectivity/connectivity.dart';
 import 'package:flutter/material.dart';
 import 'package:baacstaff/models/register_model.dart';
 import 'package:baacstaff/services/rest_api.dart';
@@ -50,10 +52,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     color: Colors.white54,
                     child: Padding(
                       padding: const EdgeInsets.symmetric(
-                          horizontal: 10, vertical: 5),
+                        horizontal: 10,
+                        vertical: 5,
+                      ),
                       child: Column(
                         children: [
                           TextFormField(
+                            initialValue: "5601965",
                             validator: (value) {
                               if (value.isEmpty) {
                                 return "Please enter username";
@@ -77,9 +82,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             ),
                           ),
                           TextFormField(
+                            initialValue: "7127225663620",
                             validator: (value) {
                               if (value.isEmpty) {
                                 return "Please enter National ID";
+                              } else if (value.length != 13) {
+                                return "Value must be 13 digits";
                               } else {
                                 return null;
                               }
@@ -119,10 +127,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   color: Colors.red,
                   child: Padding(
                     padding: const EdgeInsets.symmetric(
-                        horizontal: 30, vertical: 10),
+                      horizontal: 30,
+                      vertical: 10,
+                    ),
                     child: Text(
                       'Conspire',
-                      style: TextStyle(fontSize: 24, color: Colors.white),
+                      style: TextStyle(
+                        fontSize: 24,
+                        color: Colors.white,
+                      ),
                     ),
                   ),
                   shape: RoundedRectangleBorder(
@@ -139,8 +152,17 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   // function check api
   void _register(data) async {
-    var response = await CallAPI().postData(data, "/register");
-    var body = json.decode(response.body);
-    print(body);
+    var isOffline = await Connectivity().checkConnectivity();
+    if (isOffline == ConnectivityResult.none) {
+      Utility.getInstance().showAlertDialog(
+          context, "Offline", "Please connect to the Internet.");
+    } else {
+      var response = await CallAPI().postData(data, "/register");
+      var body = json.decode(response.body);
+      // print(body['code']);
+      if (body['code'] == "200") {
+        Navigator.pushNamed(context, '/consent');
+      }
+    }
   }
 }

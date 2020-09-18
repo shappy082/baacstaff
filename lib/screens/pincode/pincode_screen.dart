@@ -1,3 +1,4 @@
+import 'package:baacstaff/utils/utility.dart';
 import 'package:flutter/material.dart';
 import 'package:pin_view/pin_view.dart';
 
@@ -51,13 +52,20 @@ class PincodeScreen extends StatelessWidget {
                         //       return code.join();
                         //     }),
                         submit: (String pin) {
-                          showDialog(
-                              context: context,
-                              builder: (BuildContext context) {
-                                return AlertDialog(
-                                    title: Text("Pin received successfully."),
-                                    content: Text("Entered pin is: $pin"));
-                              });
+                          if (pin == '123456') {
+                            Navigator.pushReplacementNamed(
+                                context, '/setpassword');
+                          } else {
+                            Utility.getInstance().showAlertDialog(
+                                context, 'Wrong PIN', 'Please try again');
+                          }
+                          // showDialog(
+                          //     context: context,
+                          //     builder: (BuildContext context) {
+                          //       return AlertDialog(
+                          //           title: Text("Pin received successfully."),
+                          //           content: Text("Entered pin is: $pin"));
+                          //     });
                         } // gets triggered when all the fields are filled
                         ),
                   ),

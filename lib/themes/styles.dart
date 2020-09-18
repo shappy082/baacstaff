@@ -6,5 +6,10 @@ ThemeData appTheme() {
     primarySwatch: Colors.red,
     accentColor: Colors.blueAccent,
     buttonColor: Colors.lightGreen,
+    bottomNavigationBarTheme: BottomNavigationBarThemeData(
+      backgroundColor: Colors.white,
+      selectedItemColor: Colors.redAccent,
+      unselectedItemColor: Colors.grey,
+    ),
   );
 }

@@ -4,6 +4,7 @@ import 'package:baacstaff/screens/bottom_nav/employee/employee_screen.dart';
 import 'package:baacstaff/screens/bottom_nav/fundLoan/fund_loan_screen.dart';
 import 'package:baacstaff/screens/bottom_nav/home/home_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class DashboardScreen extends StatefulWidget {
   DashboardScreen({Key key}) : super(key: key);
@@ -13,6 +14,31 @@ class DashboardScreen extends StatefulWidget {
 }
 
 class _DashboardScreenState extends State<DashboardScreen> {
+  // create SharedPreferences
+  SharedPreferences sharedPreferences;
+
+  // set variable to stored sharedPreferences value
+  String _employeeName, _employeeEmpID;
+
+  //initial state when this widget start
+  @override
+  void initState() {
+    super.initState();
+    readEmployee();
+  }
+
+  // create async function to read sharedPreferences
+  readEmployee() async {
+    sharedPreferences = await SharedPreferences.getInstance();
+    setState(() {
+      _employeeName = sharedPreferences.getString('store_prename') +
+          sharedPreferences.getString('store_firstname') +
+          ' ' +
+          sharedPreferences.getString('store_lastname');
+      _employeeEmpID = sharedPreferences.getString('store_empID');
+    });
+  }
+
   //create list variable to stored bottom screen items
   int _currentIndex = 0;
   String _title = 'Home';
@@ -65,11 +91,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   onTap: () {},
                   child: CircleAvatar(
                     backgroundImage: AssetImage('assets/images/trex.png'),
-                    backgroundColor: Colors.white10,
+                    backgroundColor: Colors.white70,
                   ),
                 ),
-                accountName: Text('Samit'),
-                accountEmail: Text('samit@gmail.com'),
+                accountName: Text('$_employeeName'),
+                accountEmail: Text('$_employeeEmpID'),
                 decoration: BoxDecoration(
                   image: DecorationImage(
                     image: AssetImage('assets/images/bg.jpg'),
@@ -79,36 +105,36 @@ class _DashboardScreenState extends State<DashboardScreen> {
               ),
               ListTile(
                 leading: Icon(Icons.new_releases),
-                title: Text('ข้อมูลข่าวสาร ธกส.'),
+                title: Text('News'),
                 onTap: () {
                   Navigator.pop(context);
-                  Navigator.pushNamed(context, '/baacnews');
+                  Navigator.pushNamed(context, '/news');
                 },
               ),
               ListTile(
                 leading: Icon(Icons.account_circle),
-                title: Text('ข้อมูลพนักงาน '),
+                title: Text('Employee Data'),
                 onTap: () {
                   Navigator.pop(context);
                 },
               ),
               ListTile(
                 leading: Icon(Icons.branding_watermark),
-                title: Text('สวัสดิการ'),
+                title: Text('Benefit'),
                 onTap: () {
                   Navigator.pop(context);
                 },
               ),
               ListTile(
                 leading: Icon(Icons.data_usage),
-                title: Text('กองทุนกู้ยืมเพื่อสวัสดิการ'),
+                title: Text('Fund'),
                 onTap: () {
                   Navigator.pop(context);
                 },
               ),
               ListTile(
                 leading: Icon(Icons.timelapse),
-                title: Text('ลงเวลาทำงาน'),
+                title: Text('Check-in'),
                 onTap: () {
                   Navigator.pop(context);
                 },
@@ -118,16 +144,17 @@ class _DashboardScreenState extends State<DashboardScreen> {
               ),
               ListTile(
                 leading: Icon(Icons.exit_to_app),
-                title: Text('ออกจากระบบ'),
+                title: Text('Sign Out'),
                 onTap: () {
                   // เคลียร์ค่าใน sharedPreferences
+                  sharedPreferences.remove('store_empID');
                   Navigator.pop(context);
                   Navigator.pushReplacementNamed(context, '/lockscreen');
                 },
               ),
               ListTile(
                 leading: Icon(Icons.cancel),
-                title: Text('ยกเลิกการลงทะเบียน'),
+                title: Text('Deactivate Account'),
                 onTap: () {
                   Navigator.pop(context);
                   Navigator.pushNamed(context, '/cancelaccount');

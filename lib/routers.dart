@@ -2,6 +2,7 @@ import 'package:baacstaff/screens/consent/consent_screen.dart';
 import 'package:baacstaff/screens/dashboard/dashboard_screen.dart';
 import 'package:baacstaff/screens/drawer/cancel_account/cancel_account_screen.dart';
 import 'package:baacstaff/screens/drawer/news/news_screen.dart';
+import 'package:baacstaff/screens/lockscreen/lock_screen.dart';
 import 'package:baacstaff/screens/pincode/pincode_screen.dart';
 import 'package:baacstaff/screens/register/register_screen.dart';
 import 'package:baacstaff/screens/setPassword/setPassword_screen.dart';
@@ -17,4 +18,5 @@ final Map<String, WidgetBuilder> routes = <String, WidgetBuilder>{
   "/dashboard": (BuildContext context) => DashboardScreen(),
   "/news": (BuildContext context) => NewsScreen(),
   "/cancelAcc": (BuildContext context) => CancelAccountScreen(),
+  "/lockscreen": (BuildContext context) => LockScreen(),
 };

@@ -5,6 +5,7 @@ import 'package:connectivity/connectivity.dart';
 import 'package:flutter/material.dart';
 import 'package:baacstaff/models/register_model.dart';
 import 'package:baacstaff/services/rest_api.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class RegisterScreen extends StatefulWidget {
   RegisterScreen({Key key}) : super(key: key);
@@ -161,6 +162,19 @@ class _RegisterScreenState extends State<RegisterScreen> {
       var body = json.decode(response.body);
       // print(body['code']);
       if (body['code'] == "200") {
+        // create SharedPreferences
+        SharedPreferences sharedPreferences =
+            await SharedPreferences.getInstance();
+
+        //stored data to sharedPreferences
+        sharedPreferences.setString('store_empID', body['data']['empid']);
+        sharedPreferences.setString('store_prename', body['data']['prename']);
+        sharedPreferences.setString(
+            'store_firstname', body['data']['firstname']);
+        sharedPreferences.setString('store_lastname', body['data']['lastname']);
+        sharedPreferences.setString('store_position', body['data']['position']);
+        sharedPreferences.setInt('store_step', 1);
+
         Navigator.pushNamed(context, '/consent');
       }
     }

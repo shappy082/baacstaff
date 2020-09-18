@@ -112,7 +112,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     // Navigator.pushNamed(context, '/consent');
                     if (formKey.currentState.validate()) {
                       formKey.currentState.save();
-                      var data = {'empID': empID, 'cizid': cizID};
+                      var data = {"empid": empID, "cizid": cizID};
                       _register(data);
                     }
                   },
@@ -139,8 +139,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   // function check api
   void _register(data) async {
-    // print(jsonEncode(data));
-    var response = await CallAPI().postData(jsonEncode(data), "/register");
+    var response = await CallAPI().postData(data, "/register");
     var body = json.decode(response.body);
     print(body);
   }

@@ -59,7 +59,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       child: Column(
                         children: [
                           TextFormField(
-                            initialValue: "5601965",
+                            // initialValue: "5601965",
                             validator: (value) {
                               if (value.isEmpty) {
                                 return "Please enter username";
@@ -71,7 +71,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               empID = value.trim();
                             },
                             autofocus: false,
-                            keyboardType: TextInputType.text,
+                            keyboardType: TextInputType.number,
                             style: TextStyle(fontSize: 16),
                             decoration: InputDecoration(
                               icon: Icon(
@@ -81,9 +81,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               labelText: 'Username',
                               hintText: 'Username',
                             ),
+                            maxLength: 7,
                           ),
                           TextFormField(
-                            initialValue: "7127225663620",
+                            // initialValue: "7127225663620",
                             validator: (value) {
                               if (value.isEmpty) {
                                 return "Please enter National ID";
@@ -107,6 +108,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               labelText: 'National ID',
                               hintText: '13 digits only',
                             ),
+                            maxLength: 13,
                           ),
                         ],
                       ),
@@ -132,7 +134,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       vertical: 10,
                     ),
                     child: Text(
-                      'Conspire',
+                      'Login',
                       style: TextStyle(
                         fontSize: 24,
                         color: Colors.white,
@@ -176,6 +178,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
         sharedPreferences.setInt('store_step', 1);
 
         Navigator.pushNamed(context, '/consent');
+      } else {
+        Utility.getInstance()
+            .showAlertDialog(context, "Login falied", "Please try again");
       }
     }
   }

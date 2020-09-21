@@ -1,5 +1,7 @@
 import 'package:baacstaff/screens/lockscreen/numpad.dart';
+import 'package:baacstaff/utils/utility.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LockScreen extends StatefulWidget {
   LockScreen({Key key}) : super(key: key);
@@ -13,10 +15,21 @@ class _LockScreenState extends State<LockScreen> {
 
   onChange(String number) {
     if (number.length == length) {
-      print(number);
-      Navigator.pushReplacementNamed(context, '/welcome');
+      _login(number);
     }
-    // print(number);
+  }
+
+  _login(String passwordInput) async {
+    // create var for sharedPreferences
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    var password = sharedPreferences.getString('store_password');
+    if (passwordInput == password) {
+      sharedPreferences.setInt('store_step', 3);
+      Navigator.pushReplacementNamed(context, '/dashboard');
+    } else {
+      Utility.getInstance()
+          .showAlertDialog(context, "Wrong Password!", "Please try again.");
+    }
   }
 
   @override
@@ -39,7 +52,7 @@ class _LockScreenState extends State<LockScreen> {
             //   ],
             // ),
             Image.asset(
-              'assets/images/astaff_logo.png',
+              'assets/images/trex.png',
               width: 80,
               height: 80,
             ),

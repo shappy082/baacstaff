@@ -3,11 +3,23 @@ import 'package:baacstaff/themes/styles.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-var _empID;
+var storeStep;
+var initURL;
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
   SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-  _empID = sharedPreferences.getString('store_empID');
+  storeStep = sharedPreferences.getInt('store_step');
+  if (storeStep == 1) {
+    initURL = '/pin';
+  } else if (storeStep == 2) {
+    initURL = '/setpassword';
+  } else if (storeStep == 3) {
+    initURL = '/dashboard';
+  } else if (storeStep == 4) {
+    initURL = '/lockscreen';
+  } else {
+    initURL = '/welcome';
+  }
   runApp(BaacApp());
 }
 
@@ -17,7 +29,7 @@ class BaacApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: appTheme(),
-      initialRoute: _empID == null ? '/welcome' : '/dashboard',
+      initialRoute: initURL,
       routes: routes,
     );
   }

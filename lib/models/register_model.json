@@ -11,10 +11,15 @@
         "prename": "นางสาว",
         "firstname": "วารุณี",
         "lastname": "ศรีสุข",
+        "email": "warunee@gmail.com",
+        "tel": "0898398928233",
+        "address": "366 moo.6 ladprao bangkok 10200",
+        "gender": "หญิง",
         "position": "พนักงานฝ่ายจัดสินเชื่อ",
         "department": "สินเชื่อและการขาย",
         "salary": "23500.00",
         "birthdate": "1988-06-10",
+        "avatar": "https://image.freepik.com/free-vector/portrait-african-american-woman-profile-avatar-young-black-girl_102172-418.jpg",
         "status": "1"
     }
 }

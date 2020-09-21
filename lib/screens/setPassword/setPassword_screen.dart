@@ -1,5 +1,7 @@
+import 'package:baacstaff/utils/password_widget.dart';
 import 'package:baacstaff/utils/utility.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SetPasswordScreen extends StatefulWidget {
   SetPasswordScreen({Key key}) : super(key: key);
@@ -35,29 +37,22 @@ class _SetPasswordScreenState extends State<SetPasswordScreen> {
                   Padding(
                     padding:
                         const EdgeInsets.only(left: 30, right: 30, top: 50),
-                    child: TextFormField(
-                      autofocus: false,
-                      obscureText: true,
-                      keyboardType: TextInputType.number,
-                      style: TextStyle(fontSize: 24, color: Colors.teal),
-                      decoration: InputDecoration(
-                        icon: Icon(
-                          Icons.lock,
-                          size: 28,
-                        ),
-                        labelText: 'New password',
-                        errorStyle: TextStyle(
-                          fontSize: 16.0,
-                        ),
-                      ),
+                    child: PasswordField(
+                      labelText: 'New password',
+                      helperText: 'Enter 6 digits password',
                       validator: (value) {
                         if (value.isEmpty) {
-                          return 'Please enter password';
+                          return "Please enter password";
                         } else if (value.length != 6) {
-                          return 'Password must have 6 digits';
+                          return "Password must have 6 digits";
                         } else {
                           return null;
                         }
+                      },
+                      onFieldSubmitted: (String value) {
+                        setState(() {
+                          this.passwordText = value;
+                        });
                       },
                       onSaved: (value) {
                         passwordText = value.trim();
@@ -67,43 +62,29 @@ class _SetPasswordScreenState extends State<SetPasswordScreen> {
                   Padding(
                     padding:
                         const EdgeInsets.only(left: 30, right: 30, top: 10),
-                    child: TextFormField(
-                      autofocus: false,
-                      obscureText: true,
-                      keyboardType: TextInputType.number,
-                      style: TextStyle(fontSize: 24, color: Colors.teal),
-                      decoration: InputDecoration(
-                        icon: Icon(
-                          Icons.lock,
-                          size: 28,
-                        ),
-                        labelText: 'Retype your password',
-                        errorStyle: TextStyle(
-                          fontSize: 16.0,
-                        ),
-                      ),
+                    child: PasswordField(
+                      labelText: 'Confirm Password',
+                      helperText: 'Enter 6 digits password',
                       validator: (value) {
                         if (value.isEmpty) {
-                          return 'Please enter password';
+                          return "Please enter password";
                         } else if (value.length != 6) {
-                          return 'Password must have 6 digits';
-                        } else if (passwordConfirmText != passwordText) {
-                          Utility.getInstance().showAlertDialog(
-                            context,
-                            'Error',
-                            'Both password does not match.',
-                          );
-                          return 'not match';
+                          return "Password must have 6 digits";
                         } else {
                           return null;
                         }
+                      },
+                      onFieldSubmitted: (String value) {
+                        setState(() {
+                          this.passwordConfirmText = value;
+                        });
                       },
                       onSaved: (value) {
                         passwordConfirmText = value.trim();
                       },
                     ),
                   ),
-                  SizedBox(height: 10),
+                  SizedBox(height: 30),
                   Padding(
                     padding: const EdgeInsets.only(
                       left: 30,
@@ -114,7 +95,12 @@ class _SetPasswordScreenState extends State<SetPasswordScreen> {
                       onPressed: () {
                         if (formKey.currentState.validate()) {
                           formKey.currentState.save();
-                          Navigator.pushReplacementNamed(context, '/dashboard');
+                          if (passwordText != passwordConfirmText) {
+                            Utility.getInstance().showAlertDialog(context,
+                                "Password not match!", "Please try again");
+                          } else {
+                            _setpasswordSubmit(context, passwordText);
+                          }
                         }
                       },
                       child: Padding(
@@ -138,5 +124,12 @@ class _SetPasswordScreenState extends State<SetPasswordScreen> {
         ),
       ),
     );
+  }
+
+  void _setpasswordSubmit(BuildContext context, password) async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    sharedPreferences.setInt('store_step', 3);
+    sharedPreferences.setString('store_password', password);
+    Navigator.pushReplacementNamed(context, '/dashboard');
   }
 }

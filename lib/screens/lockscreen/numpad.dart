@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:local_auth/local_auth.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Numpad extends StatefulWidget {
   final int length;
@@ -11,6 +13,62 @@ class Numpad extends StatefulWidget {
 
 class _NumpadState extends State<Numpad> {
   String number = '';
+
+  // finger print scan here
+  bool _authSuccess = false;
+  LocalAuthentication _localAuth;
+
+  Future<bool> _auth() async {
+    setState(() => this._authSuccess = false);
+    if (await this._localAuth.canCheckBiometrics == false) {
+      Scaffold.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Your device is NOT capable of checking biometrics.\n'
+              'This demo will not work on your device!\n'
+              'You must have android 6.0+ and have fingerprint sensor.'),
+        ),
+      );
+      return false;
+    }
+    // **NOTE**: for local auth to work, tha MainActivity needs to extend from
+    // FlutterFragmentActivity, cf. https://stackoverflow.com/a/56605771.
+    try {
+      final authSuccess = await this._localAuth.authenticateWithBiometrics(
+          localizedReason:
+              'เข้าใช้งานด้วยการแสกนลายนิ้วมือ\nหรือ ยกเลิกเพื่อกลับไปใช้รหัส PIN');
+
+      if (authSuccess) {
+        // สแกนผ่าน
+        _setAuthSuccess();
+      }
+
+      /*
+      Scaffold.of(context).showSnackBar(
+        SnackBar(content: Text('authSuccess=$authSuccess')),
+      );
+      return authSuccess;
+      */
+
+    } catch (e) {
+      Scaffold.of(context).showSnackBar(
+        SnackBar(content: Text(e.toString())),
+      );
+      return false;
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    this._localAuth = LocalAuthentication();
+  }
+
+  void _setAuthSuccess() async {
+    // สร้างตัวเก็บข้อมูลแบบ SharedPreferences
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    sharedPreferences.setInt('store_step', 3);
+    Navigator.pushReplacementNamed(context, '/dashboard');
+  }
 
   setValue(String val) {
     if (number.length < widget.length)
@@ -94,10 +152,18 @@ class _NumpadState extends State<Numpad> {
                 padding: const EdgeInsets.only(
                   right: 30,
                 ),
-                child: Icon(
-                  Icons.fingerprint,
-                  size: 60,
-                  color: Colors.green,
+                child: GestureDetector(
+                  onTap: () async {
+                    final authSuccess = await this._auth();
+                    setState(() {
+                      this._authSuccess = authSuccess;
+                    });
+                  },
+                  child: Icon(
+                    Icons.fingerprint,
+                    size: 60,
+                    color: Colors.green,
+                  ),
                 ),
               ),
               NumpadButton(

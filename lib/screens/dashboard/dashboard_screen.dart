@@ -39,6 +39,13 @@ class _DashboardScreenState extends State<DashboardScreen> {
     });
   }
 
+  void _signOut() async {
+    // create var for sharedPreferences
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    sharedPreferences.setInt('store_step', 4);
+    Navigator.pushReplacementNamed(context, '/lockscreen');
+  }
+
   //create list variable to stored bottom screen items
   int _currentIndex = 0;
   String _title = 'Home';
@@ -146,10 +153,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 leading: Icon(Icons.exit_to_app),
                 title: Text('Sign Out'),
                 onTap: () {
-                  // เคลียร์ค่าใน sharedPreferences
-                  sharedPreferences.remove('store_empID');
-                  Navigator.pop(context);
-                  Navigator.pushReplacementNamed(context, '/lockscreen');
+                  _signOut();
                 },
               ),
               ListTile(
@@ -182,7 +186,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.account_balance),
-            title: Text('City'),
+            title: Text('Fund'),
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.access_time),

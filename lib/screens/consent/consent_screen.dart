@@ -44,7 +44,7 @@ class ConcentScreen extends StatelessWidget {
                     RaisedButton(
                       color: Colors.greenAccent,
                       onPressed: () {
-                        Navigator.pushNamed(context, '/pin');
+                        Navigator.pushReplacementNamed(context, '/pin');
                       },
                       child: Text("Accept"),
                     ),

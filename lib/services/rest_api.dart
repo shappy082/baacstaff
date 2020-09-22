@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:baacstaff/models/news_model.dart';
 import 'package:http/http.dart' as http;
 import 'package:baacstaff/models/register_model.dart';
 
@@ -32,6 +33,16 @@ class CallAPI {
     );
     if (response.statusCode == 200) {
       return registerModelFromJson(response.body);
+    } else {
+      return null;
+    }
+  }
+
+  Future<List<NewsModel>> getNews() async {
+    var url = baseApiURL + '/news';
+    final response = await http.get(url, headers: _setHeader());
+    if (response.statusCode == 200) {
+      return newsModelFromJson(response.body);
     } else {
       return null;
     }

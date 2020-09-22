@@ -27,7 +27,7 @@ class WelcomeScreen extends StatelessWidget {
           ),
           RaisedButton(
             onPressed: () {
-              Navigator.pushNamed(context, '/register');
+              Navigator.pushReplacementNamed(context, '/register');
               // Navigator.pushReplacementNamed(context, '/register');
             },
             color: Colors.red,

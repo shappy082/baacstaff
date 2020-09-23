@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:baacstaff/routers.dart';
 import 'package:baacstaff/themes/styles.dart';
 import 'package:flutter/material.dart';
@@ -20,6 +22,7 @@ Future main() async {
   } else {
     initURL = '/welcome';
   }
+  HttpOverrides.global = new MyHttpOverrides();
   runApp(BaacApp());
 }
 
@@ -32,5 +35,16 @@ class BaacApp extends StatelessWidget {
       initialRoute: initURL,
       routes: routes,
     );
+  }
+}
+
+//NOT DO THIS IN REAL APP
+//skip certificate https
+class MyHttpOverrides extends HttpOverrides {
+  @override
+  HttpClient createHttpClient(SecurityContext context) {
+    return super.createHttpClient(context)
+      ..badCertificateCallback =
+          (X509Certificate cert, String host, int port) => true;
   }
 }

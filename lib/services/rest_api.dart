@@ -12,7 +12,7 @@ class CallAPI {
       };
   _setBaacHeader() => {
         'Content-Type': 'application/x-www-form-urlencoded',
-        'Accept': 'application/x-www-form-urlencoded',
+        'Accept': 'application/json',
       };
 
 // Register API
@@ -56,20 +56,21 @@ class CallAPI {
 
   checkInAndOut(data) async {
     var url = baseBaacApiUrl + '/Golocation/';
-    return await http.post(
+    final response = await http.post(
       url,
       body: data,
       headers: _setBaacHeader(),
       encoding: Encoding.getByName("utf-8"),
     );
+    return response;
   }
 
+  // Read Time Datail
   Future<List<TimeDetailModel>> getTimeDetail() async {
-    var url = baseBaacApiUrl + '/TimeDetail/';
-    var body = {'imei': 'baac1234', 'pass': 'baac'};
-    final response =
-        await http.post(url, body: body, headers: _setBaacHeader());
-    // print(response.body);
+    final response = await http.get(
+      baseApiURL + '/timeDetail',
+      headers: _setBaacHeader(),
+    );
     if (response.body != null) {
       return timeDetailModelFromJson(response.body);
     } else {

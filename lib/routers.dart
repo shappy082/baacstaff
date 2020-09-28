@@ -6,6 +6,7 @@ import 'package:baacstaff/screens/employee_detail/employee_detail_screen.dart';
 import 'package:baacstaff/screens/lockscreen/lock_screen.dart';
 import 'package:baacstaff/screens/pincode/pincode_screen.dart';
 import 'package:baacstaff/screens/register/register_screen.dart';
+import 'package:baacstaff/screens/service_map/service_map_screen.dart';
 import 'package:baacstaff/screens/setPassword/setPassword_screen.dart';
 import 'package:baacstaff/screens/welcome/welcomeScreen.dart';
 import 'package:flutter/material.dart';
@@ -21,4 +22,5 @@ final Map<String, WidgetBuilder> routes = <String, WidgetBuilder>{
   "/cancelAcc": (BuildContext context) => CancelAccountScreen(),
   "/lockscreen": (BuildContext context) => LockScreen(),
   "/employee-detail": (BuildContext context) => EmployeeDetailScreen(),
+  "/serviceMap": (BuildContext context) => ServiceMapScreen(),
 };

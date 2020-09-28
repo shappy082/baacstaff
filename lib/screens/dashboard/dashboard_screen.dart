@@ -146,6 +146,14 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   Navigator.pop(context);
                 },
               ),
+              ListTile(
+                leading: Icon(Icons.pin_drop),
+                title: Text('Service Area'),
+                onTap: () {
+                  Navigator.pop(context);
+                  Navigator.pushNamed(context, '/serviceMap');
+                },
+              ),
               Divider(
                 color: Colors.green[200],
               ),

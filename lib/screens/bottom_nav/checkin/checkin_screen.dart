@@ -21,7 +21,7 @@ class _CheckInScreenState extends State<CheckInScreen> {
             if (snapshot.hasError) {
               //error
               return Center(
-                child: Text('Loading Error...'),
+                child: Text('Loading Error... ${snapshot.error}'),
               );
             } else if (snapshot.connectionState == ConnectionState.done) {
               //OK
@@ -40,23 +40,43 @@ class _CheckInScreenState extends State<CheckInScreen> {
   }
 
   // create listview for timeDetail
-  Widget _listViewTimeDetail(List<TimeDetailModel> timeDetail) {
+  Widget _listViewTimeDetail(List<TimeDetailModel> timedetail) {
     return ListView.builder(
-      itemCount: timeDetail.length,
-      itemBuilder: (context, index) {
-        TimeDetailModel timeDetailModel = timeDetail[index];
-        return Container(
-          child: Container(
-            child: Column(
-              children: [
-                Text(timeDetailModel.type),
-                Text('Date: ' + timeDetailModel.date),
-                Text('Time: ' + timeDetailModel.time),
-              ],
+        itemCount: timedetail.length,
+        itemBuilder: (context, index) {
+          TimeDetailModel timeDetailModel = timedetail[index];
+          return Container(
+            child: Card(
+              child: Container(
+                child: Padding(
+                  padding: const EdgeInsets.all(15.0),
+                  child: Row(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(right: 15),
+                        child: Column(
+                          children: [
+                            Image.asset(
+                              'assets/images/trex.png',
+                              width: 55,
+                            )
+                          ],
+                        ),
+                      ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(timeDetailModel.type),
+                          Text('Date ' + timeDetailModel.date),
+                          Text('Time ' + timeDetailModel.time)
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ),
             ),
-          ),
-        );
-      },
-    );
+          );
+        });
   }
 }

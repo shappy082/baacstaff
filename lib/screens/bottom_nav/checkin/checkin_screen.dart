@@ -10,32 +10,48 @@ class CheckInScreen extends StatefulWidget {
 }
 
 class _CheckInScreenState extends State<CheckInScreen> {
+  List<dynamic> _timeDetails = [];
+  Future fetchTimeDetail() async {
+    var response = await CallAPI().getTimeDetail();
+    setState(() {
+      _timeDetails = response;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        child: FutureBuilder(
-          future: CallAPI().getTimeDetail(),
-          builder: (BuildContext context,
-              AsyncSnapshot<List<TimeDetailModel>> snapshot) {
-            if (snapshot.hasError) {
-              //error
-              return Center(
-                child: Text('Loading Error... ${snapshot.error}'),
-              );
-            } else if (snapshot.connectionState == ConnectionState.done) {
-              //OK
-              List<TimeDetailModel> timeDetails = snapshot.data;
-              return _listViewTimeDetail(timeDetails);
-            } else {
-              //loading
-              return Center(
-                child: CircularProgressIndicator(),
-              );
-            }
-          },
-        ),
-      ),
+      body: _timeDetails != 0
+          ? RefreshIndicator(
+              onRefresh: fetchTimeDetail,
+              child: Container(
+                child: FutureBuilder(
+                  future: CallAPI().getTimeDetail(),
+                  builder: (BuildContext context,
+                      AsyncSnapshot<List<TimeDetailModel>> snapshot) {
+                    if (snapshot.hasError) {
+                      //error
+                      return Center(
+                        child: Text('Loading Error... ${snapshot.error}'),
+                      );
+                    } else if (snapshot.connectionState ==
+                        ConnectionState.done) {
+                      //OK
+                      List<TimeDetailModel> timeDetails = snapshot.data;
+                      return _listViewTimeDetail(timeDetails);
+                    } else {
+                      //loading
+                      return Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    }
+                  },
+                ),
+              ),
+            )
+          : Center(
+              child: CircularProgressIndicator(),
+            ),
     );
   }
 
@@ -56,10 +72,9 @@ class _CheckInScreenState extends State<CheckInScreen> {
                         padding: const EdgeInsets.only(right: 15),
                         child: Column(
                           children: [
-                            Image.asset(
-                              'assets/images/trex.png',
-                              width: 55,
-                            )
+                            timeDetailModel.type == 'ลงเวลาเข้าทำงาน'
+                                ? Icon(Icons.input)
+                                : Icon(Icons.time_to_leave)
                           ],
                         ),
                       ),

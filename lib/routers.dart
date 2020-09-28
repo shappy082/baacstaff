@@ -1,3 +1,4 @@
+import 'package:baacstaff/screens/camera_gallery/camera_gallery_screen.dart';
 import 'package:baacstaff/screens/consent/consent_screen.dart';
 import 'package:baacstaff/screens/dashboard/dashboard_screen.dart';
 import 'package:baacstaff/screens/drawer/cancel_account/cancel_account_screen.dart';
@@ -23,4 +24,5 @@ final Map<String, WidgetBuilder> routes = <String, WidgetBuilder>{
   "/lockscreen": (BuildContext context) => LockScreen(),
   "/employee-detail": (BuildContext context) => EmployeeDetailScreen(),
   "/serviceMap": (BuildContext context) => ServiceMapScreen(),
+  "/camera_upload": (BuildContext context) => CameraGalleryScreen(),
 };
